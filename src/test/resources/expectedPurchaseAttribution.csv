@@ -1,0 +1,7 @@
+user_id,purchase_time,campaign_id,purchase_id,session_id,billing_cost,is_confirmed,campaign_id,channel_id
+u3,2019-01-01 01:12:00,cmp1,p3,u32,300.0,false,cmp1,Google Ads
+u3,2019-01-02 02:13:00,cmp2,p4,u33,50.2,true,cmp2,Yandex Ads
+u3,2019-01-02 02:15:00,cmp2,p5,u33,75.0,true,cmp2,Yandex Ads
+u3,2019-01-02 13:03:00,cmp2,p6,u34,99.0,false,cmp2,Yandex Ads
+u1,2019-01-01 00:01:00,cmp1,p1,u11,100.5,true,cmp1,Google Ads
+u2,2019-01-01 00:03:00,cmp1,p2,u21,200.0,true,cmp1,Yandex Ads
