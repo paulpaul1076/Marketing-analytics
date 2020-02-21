@@ -32,7 +32,6 @@ object MainSQL {
 
   def runCalculations(pathToClickStream: String, pathToPurchaseStream: String): Unit = {
     val spark = SparkSession.builder().getOrCreate()
-    spark.sparkContext.setLogLevel("ERROR")
 
     val purchaseStream = spark.read
       .option("header", "true")

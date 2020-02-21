@@ -34,7 +34,6 @@ object MainNonSQL {
 
   def runCalculations(pathToClickStream: String, pathToPurchaseStream: String): Unit = {
     val spark = SparkSession.builder().getOrCreate ()
-    spark.sparkContext.setLogLevel ("ERROR")
 
     val purchaseStream = spark.read
       .option ("header", "true")
@@ -56,7 +55,7 @@ object MainNonSQL {
     val top10Campaigns = calculateTop10Campaigns (spark, purchaseAttribution)
     println ("Top 10 campaigns:")
     top10Campaigns.show ()
-    val mostPopularChannel = calculateMostPopularChannel (spark, purchaseAttribution)
+    val mostPopularChannel = calculateMostPopularChannelForEachCampaign (spark, purchaseAttribution)
     println ("Most popular channel:")
     mostPopularChannel.show ()
 
@@ -105,8 +104,8 @@ object MainNonSQL {
       .limit(10)
   }
 
-  def calculateMostPopularChannel(spark: SparkSession, purchaseAttribution: DataFrame): DataFrame = {
-    purchaseAttribution.groupBy("channel_id", "campaign_id").agg(countDistinct("session_id").as("session_count"))
+  def calculateMostPopularChannelForEachCampaign(spark: SparkSession, purchaseAttribution: DataFrame): DataFrame = {
+    purchaseAttribution.groupBy("channel_id", "campaign_id").agg(CountDistinct(col("session_id")).as("session_count"))
       .orderBy(col("session_count").desc)
       .select("channel_id", "campaign_id", "session_count")
       .limit(1)

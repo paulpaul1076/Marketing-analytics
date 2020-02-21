@@ -34,7 +34,7 @@ class MainTest {
           .option("escape", "\"")
           .csv("src/test/resources/mostPopularChannel.csv")
         val mostPopularChannelSQL = MainSQL.calculateMostPopularChannel(spark, purchaseAttributionSQL)
-        val mostPopularChannelNonSQL = MainNonSQL.calculateMostPopularChannel(spark, purchaseAttributionNonSQL)
+        val mostPopularChannelNonSQL = MainNonSQL.calculateMostPopularChannelForEachCampaign(spark, purchaseAttributionNonSQL)
         assert(areDataFramesEqual(expectedMostPopularChannel, mostPopularChannelSQL))
         assert(areDataFramesEqual(expectedMostPopularChannel, mostPopularChannelNonSQL))
     }
