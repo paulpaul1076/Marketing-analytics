@@ -95,7 +95,7 @@ object MainSQL {
   def calculateMostPopularChannel(spark: SparkSession, purchaseAttribution: DataFrame): DataFrame = {
     purchaseAttribution.createOrReplaceGlobalTempView("purchase_attribution")
     spark.sql(
-      "select channel_id, count(DISTINCT session_id) as session_count from global_temp.purchase_attribution group by channel_id order by session_count desc limit 1"
+      "select channel_id, campaign_id, count(DISTINCT session_id) as session_count from global_temp.purchase_attribution group by channel_id, campaign_id order by session_count desc limit 1"
     )
   }
 }

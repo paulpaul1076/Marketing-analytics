@@ -33,7 +33,7 @@ object MainNonSQL {
   }
 
   def runCalculations(pathToClickStream: String, pathToPurchaseStream: String): Unit = {
-    val spark = SparkSession.builder ().getOrCreate ()
+    val spark = SparkSession.builder().getOrCreate ()
     spark.sparkContext.setLogLevel ("ERROR")
 
     val purchaseStream = spark.read
@@ -102,12 +102,13 @@ object MainNonSQL {
       .groupBy("campaign_id").agg(sum("billing_cost").as("total_cost"))
       .orderBy(col("total_cost").desc)
       .select("campaign_id", "total_cost")
+      .limit(10)
   }
 
   def calculateMostPopularChannel(spark: SparkSession, purchaseAttribution: DataFrame): DataFrame = {
-    purchaseAttribution.groupBy("channel_id").agg(countDistinct("session_id").as("session_count"))
+    purchaseAttribution.groupBy("channel_id", "campaign_id").agg(countDistinct("session_id").as("session_count"))
       .orderBy(col("session_count").desc)
-      .select("channel_id", "session_count")
+      .select("channel_id", "campaign_id", "session_count")
       .limit(1)
   }
 }
